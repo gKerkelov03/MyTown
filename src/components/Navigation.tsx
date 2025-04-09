@@ -42,8 +42,6 @@ const Navigation = () => {
       ]
     : [
         { name: 'Home', path: '/', icon: HomeIcon },
-        { name: 'Activities', path: '/municipality/1', icon: ClipboardDocumentListIcon },
-        { name: 'Forum', path: '/forum', icon: ChatBubbleLeftRightIcon },
       ];
 
   return (
@@ -53,11 +51,11 @@ const Navigation = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to={isAuthenticated ? "/municipality/1" : "/"} className="flex items-center">
+            <div className="flex items-center">
               <span className="text-xl font-display font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                 MyTown
               </span>
-            </Link>
+            </div>
             <div className="hidden md:ml-8 md:flex md:space-x-1">
               {navLinks.map((link) => {
                 const Icon = link.icon;

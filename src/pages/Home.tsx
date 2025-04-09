@@ -40,10 +40,10 @@ const Home = () => {
                 <ArrowRightIcon className="ml-2 h-5 w-5 inline-block" />
               </Link>
               <Link
-                to="/municipality/1"
+                to="/login"
                 className="btn-outline px-6 py-3 text-base"
               >
-                Explore activities
+                Sign in
               </Link>
             </div>
           </div>

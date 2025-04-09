@@ -41,15 +41,27 @@ export const router = createBrowserRouter([
       },
       {
         path: 'municipality/:id',
-        element: <MunicipalityActivities />,
+        element: (
+          <ProtectedRoute>
+            <MunicipalityActivities />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'activity/:id',
-        element: <ActivityDetails />,
+        element: (
+          <ProtectedRoute>
+            <ActivityDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'forum',
-        element: <Forum />,
+        element: (
+          <ProtectedRoute>
+            <Forum />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'profile',
