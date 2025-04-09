@@ -9,6 +9,7 @@ import Forum from '../pages/Forum';
 import Profile from '../pages/Profile';
 import AdminDashboard from '../pages/AdminDashboard';
 import ProtectedRoute from './ProtectedRoute';
+import AuthRedirect from './AuthRedirect';
 import { useStore } from '../store/useStore';
 
 // Component to redirect authenticated users away from the Home page
@@ -16,7 +17,7 @@ const HomeRedirect = () => {
   const { isAuthenticated } = useStore();
   
   if (isAuthenticated) {
-    return <Navigate to="/municipality/1" replace />;
+    return <Navigate to="/forum" replace />;
   }
   
   return <Home />;
@@ -33,11 +34,19 @@ export const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <Login />,
+        element: (
+          <AuthRedirect>
+            <Login />
+          </AuthRedirect>
+        ),
       },
       {
         path: 'register',
-        element: <Register />,
+        element: (
+          <AuthRedirect>
+            <Register />
+          </AuthRedirect>
+        ),
       },
       {
         path: 'municipality/:id',

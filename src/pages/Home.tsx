@@ -13,9 +13,9 @@ import { Navigate } from 'react-router-dom';
 const Home = () => {
   const { isAuthenticated } = useStore();
   
-  // Redirect authenticated users to the activities page
+  // Redirect authenticated users to the forum page
   if (isAuthenticated) {
-    return <Navigate to="/municipality/1" replace />;
+    return <Navigate to="/forum" replace />;
   }
   
   return (

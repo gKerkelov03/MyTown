@@ -6,14 +6,14 @@ interface AuthRedirectProps {
 }
 
 /**
- * Component that redirects authenticated users to the activities page
+ * Component that redirects authenticated users to the forum page
  * and allows unauthenticated users to access the wrapped component
  */
 const AuthRedirect: React.FC<AuthRedirectProps> = ({ children }) => {
   const { isAuthenticated } = useStore();
 
   if (isAuthenticated) {
-    return <Navigate to="/municipality/1" replace />;
+    return <Navigate to="/forum" replace />;
   }
 
   return <>{children}</>;
