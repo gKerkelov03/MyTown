@@ -6,11 +6,11 @@ interface ProtectedRouteProps {
   roles?: string[];
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, roles }) => {
+const RedirectToLandingPageIfNotLoggedIn: React.FC<ProtectedRouteProps> = ({ children, roles } : { children: React.ReactNode, roles?: string[] }) => {
   const { isAuthenticated, userRole } = useStore();
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (roles && userRole && !roles.includes(userRole)) {
@@ -20,4 +20,4 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, roles }) => {
   return <>{children}</>;
 };
 
-export default ProtectedRoute; 
+export default RedirectToLandingPageIfNotLoggedIn; 

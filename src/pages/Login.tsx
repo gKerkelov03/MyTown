@@ -41,7 +41,7 @@ const Login = () => {
       setAuthError(null);
       await signInWithEmailAndPassword(auth, data.email, data.password);
       toast.success('Successfully logged in!');
-      navigate('/');
+      navigate('/forum');
     } catch (error) {
       console.error('Login error:', error);
       

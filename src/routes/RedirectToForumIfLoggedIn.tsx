@@ -9,7 +9,7 @@ interface AuthRedirectProps {
  * Component that redirects authenticated users to the forum page
  * and allows unauthenticated users to access the wrapped component
  */
-const AuthRedirect: React.FC<AuthRedirectProps> = ({ children }) => {
+const RedirectToForumIfLoggedIn: React.FC<AuthRedirectProps> = ({ children }) => {
   const { isAuthenticated } = useStore();
 
   if (isAuthenticated) {
@@ -19,4 +19,4 @@ const AuthRedirect: React.FC<AuthRedirectProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-export default AuthRedirect; 
+export default RedirectToForumIfLoggedIn; 

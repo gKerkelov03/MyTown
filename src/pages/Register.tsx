@@ -72,28 +72,28 @@ const Register = () => {
       });
 
       toast.success('Account created successfully!');
-      navigate('/');
+      navigate('/forum');
     } catch (error) {
       console.error('Registration error:', error);
       
       // Handle specific Firebase auth errors
       const authError = error as AuthError;
       if (authError.code === 'auth/email-already-in-use') {
-        setAuthError('This email is already registered. Please use a different email or try logging in.');
+        setAuthError('This email is already registered. Please use a different email or sign in.');
         setError('email', { type: 'manual', message: 'This email is already registered' });
       } else if (authError.code === 'auth/invalid-email') {
-        setAuthError('The email address is invalid.');
-        setError('email', { type: 'manual', message: 'The email address is invalid' });
+        setAuthError('The email address is not valid.');
+        setError('email', { type: 'manual', message: 'The email address is not valid' });
       } else if (authError.code === 'auth/weak-password') {
         setAuthError('The password is too weak. Please use a stronger password.');
         setError('password', { type: 'manual', message: 'The password is too weak' });
       } else if (authError.code === 'auth/network-request-failed') {
-        setAuthError('Network error. Please check your internet connection.');
+        setAuthError('A network error occurred. Please check your internet connection.');
       } else {
         setAuthError('An error occurred during registration. Please try again.');
       }
       
-      toast.error('Failed to create account');
+      toast.error('Registration failed. Please check your information.');
     }
   };
 

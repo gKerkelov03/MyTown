@@ -8,8 +8,8 @@ import ActivityDetails from '../pages/ActivityDetails';
 import Forum from '../pages/Forum';
 import Profile from '../pages/Profile';
 import AdminDashboard from '../pages/AdminDashboard';
-import ProtectedRoute from './ProtectedRoute';
-import AuthRedirect from './AuthRedirect';
+import RedirectToLandingPageIfNotLoggedIn from './RedirectToLandingPageIfNotLoggedIn';
+import RedirectToForumIfLoggedIn from './RedirectToForumIfLoggedIn';
 import { useStore } from '../store/useStore';
 
 // Component to redirect authenticated users away from the Home page
@@ -35,57 +35,57 @@ export const router = createBrowserRouter([
       {
         path: 'login',
         element: (
-          <AuthRedirect>
+          <RedirectToForumIfLoggedIn>
             <Login />
-          </AuthRedirect>
+          </RedirectToForumIfLoggedIn>
         ),
       },
       {
         path: 'register',
         element: (
-          <AuthRedirect>
+          <RedirectToForumIfLoggedIn>
             <Register />
-          </AuthRedirect>
+          </RedirectToForumIfLoggedIn>
         ),
       },
       {
         path: 'municipality/:id',
         element: (
-          <ProtectedRoute>
+          <RedirectToLandingPageIfNotLoggedIn>
             <MunicipalityActivities />
-          </ProtectedRoute>
+          </RedirectToLandingPageIfNotLoggedIn>
         ),
       },
       {
         path: 'activity/:id',
         element: (
-          <ProtectedRoute>
+          <RedirectToLandingPageIfNotLoggedIn>
             <ActivityDetails />
-          </ProtectedRoute>
+          </RedirectToLandingPageIfNotLoggedIn>
         ),
       },
       {
         path: 'forum',
         element: (
-          <ProtectedRoute>
+          <RedirectToLandingPageIfNotLoggedIn>
             <Forum />
-          </ProtectedRoute>
+          </RedirectToLandingPageIfNotLoggedIn>
         ),
       },
       {
         path: 'profile',
         element: (
-          <ProtectedRoute>
+          <RedirectToLandingPageIfNotLoggedIn>
             <Profile />
-          </ProtectedRoute>
+          </RedirectToLandingPageIfNotLoggedIn>
         ),
       },
       {
         path: 'admin',
         element: (
-          <ProtectedRoute roles={['admin']}>
+          <RedirectToLandingPageIfNotLoggedIn roles={['admin']}>
             <AdminDashboard />
-          </ProtectedRoute>
+          </RedirectToLandingPageIfNotLoggedIn>
         ),
       },
     ],
