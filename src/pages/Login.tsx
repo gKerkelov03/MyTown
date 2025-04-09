@@ -5,10 +5,10 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { LockClosedIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, EnvelopeIcon, KeyIcon } from '@heroicons/react/24/outline';
 
 const schema = yup.object().shape({
-  email: yup.string().email('Invalid email').required('Email is required'),
+  email: yup.string().email('Please enter a valid email address').required('Email is required'),
   password: yup.string().required('Password is required'),
 });
 
@@ -38,8 +38,8 @@ const Login = () => {
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         <div className="text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-            <LockClosedIcon className="h-6 w-6 text-primary-600" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
+            <LockClosedIcon className="h-8 w-8 text-primary-600" />
           </div>
           <h2 className="mt-6 text-3xl font-display font-bold tracking-tight text-gray-900">
             Sign in to your account
@@ -55,9 +55,12 @@ const Login = () => {
         <div className="card">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="input-group">
-              <label htmlFor="email" className="input-label">
-                Email address
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <EnvelopeIcon className="h-5 w-5 text-gray-400" />
+                <label htmlFor="email" className="input-label">
+                  Email address
+                </label>
+              </div>
               <input
                 {...register('email')}
                 id="email"
@@ -67,17 +70,25 @@ const Login = () => {
                 placeholder="you@example.com"
               />
               {errors.email ? (
-                <p className="input-error">{errors.email.message}</p>
+                <p className="input-error flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.email.message}
+                </p>
               ) : (
                 <p className="input-hint">Enter the email you used to register</p>
               )}
             </div>
             
             <div className="input-group">
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="input-label">
-                  Password
-                </label>
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <KeyIcon className="h-5 w-5 text-gray-400" />
+                  <label htmlFor="password" className="input-label">
+                    Password
+                  </label>
+                </div>
                 <div className="text-sm">
                   <Link to="/forgot-password" className="font-medium text-primary-600 hover:text-primary-500">
                     Forgot your password?
@@ -93,7 +104,12 @@ const Login = () => {
                 placeholder="••••••••"
               />
               {errors.password ? (
-                <p className="input-error">{errors.password.message}</p>
+                <p className="input-error flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.password.message}
+                </p>
               ) : (
                 <p className="input-hint">Enter your password to sign in</p>
               )}

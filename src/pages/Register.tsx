@@ -6,10 +6,10 @@ import { auth, db } from '../config/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { doc, setDoc } from 'firebase/firestore';
-import { UserPlusIcon } from '@heroicons/react/24/outline';
+import { UserPlusIcon, UserIcon, EnvelopeIcon, LockClosedIcon, KeyIcon } from '@heroicons/react/24/outline';
 
 const schema = yup.object().shape({
-  email: yup.string().email('Invalid email').required('Email is required'),
+  email: yup.string().email('Please enter a valid email address').required('Email is required'),
   password: yup
     .string()
     .min(6, 'Password must be at least 6 characters')
@@ -42,6 +42,8 @@ const Register = () => {
       );
 
       // Create user profile in Firestore
+
+      
       await setDoc(doc(db, 'users', user.uid), {
         name: data.name,
         email: data.email,
@@ -60,8 +62,8 @@ const Register = () => {
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         <div className="text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-            <UserPlusIcon className="h-6 w-6 text-primary-600" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
+            <UserPlusIcon className="h-8 w-8 text-primary-600" />
           </div>
           <h2 className="mt-6 text-3xl font-display font-bold tracking-tight text-gray-900">
             Create your account
@@ -77,9 +79,12 @@ const Register = () => {
         <div className="card">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="input-group">
-              <label htmlFor="name" className="input-label">
-                Full name
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <UserIcon className="h-5 w-5 text-gray-400" />
+                <label htmlFor="name" className="input-label">
+                  Full name
+                </label>
+              </div>
               <input
                 {...register('name')}
                 id="name"
@@ -88,16 +93,24 @@ const Register = () => {
                 placeholder="John Doe"
               />
               {errors.name ? (
-                <p className="input-error">{errors.name.message}</p>
+                <p className="input-error flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.name.message}
+                </p>
               ) : (
                 <p className="input-hint">Enter your full name as it appears on official documents</p>
               )}
             </div>
             
             <div className="input-group">
-              <label htmlFor="email" className="input-label">
-                Email address
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <EnvelopeIcon className="h-5 w-5 text-gray-400" />
+                <label htmlFor="email" className="input-label">
+                  Email address
+                </label>
+              </div>
               <input
                 {...register('email')}
                 id="email"
@@ -107,16 +120,24 @@ const Register = () => {
                 placeholder="you@example.com"
               />
               {errors.email ? (
-                <p className="input-error">{errors.email.message}</p>
+                <p className="input-error flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.email.message}
+                </p>
               ) : (
                 <p className="input-hint">We'll never share your email with anyone else</p>
               )}
             </div>
             
             <div className="input-group">
-              <label htmlFor="password" className="input-label">
-                Password
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                <label htmlFor="password" className="input-label">
+                  Password
+                </label>
+              </div>
               <input
                 {...register('password')}
                 id="password"
@@ -126,16 +147,24 @@ const Register = () => {
                 placeholder="••••••••"
               />
               {errors.password ? (
-                <p className="input-error">{errors.password.message}</p>
+                <p className="input-error flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.password.message}
+                </p>
               ) : (
                 <p className="input-hint">Must be at least 6 characters long</p>
               )}
             </div>
             
             <div className="input-group">
-              <label htmlFor="confirmPassword" className="input-label">
-                Confirm password
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <KeyIcon className="h-5 w-5 text-gray-400" />
+                <label htmlFor="confirmPassword" className="input-label">
+                  Confirm password
+                </label>
+              </div>
               <input
                 {...register('confirmPassword')}
                 id="confirmPassword"
@@ -145,7 +174,12 @@ const Register = () => {
                 placeholder="••••••••"
               />
               {errors.confirmPassword ? (
-                <p className="input-error">{errors.confirmPassword.message}</p>
+                <p className="input-error flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.confirmPassword.message}
+                </p>
               ) : (
                 <p className="input-hint">Re-enter your password to confirm</p>
               )}

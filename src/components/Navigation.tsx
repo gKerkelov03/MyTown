@@ -121,7 +121,7 @@ const Navigation = () => {
             ) : (
               <>
                 <Link
-                  to="/signin"
+                  to="/login"
                   className="group inline-flex items-center px-4 py-2 text-sm font-medium rounded-md bg-white border-2 border-primary-500 text-primary-600 hover:bg-primary-50 hover:border-primary-600 transition-all duration-200 ease-in-out"
                 >
                   <ArrowLeftOnRectangleIcon className="h-4 w-4 mr-2 transition-transform group-hover:translate-x-[-2px]" />
@@ -131,8 +131,8 @@ const Navigation = () => {
                   to="/register"
                   className="group inline-flex items-center px-4 py-2 text-sm font-medium rounded-md bg-gradient-to-r from-primary-600 to-secondary-600 text-white hover:from-primary-700 hover:to-secondary-700 transition-all duration-200 ease-in-out transform hover:scale-[1.02] hover:shadow-md"
                 >
-                  <UserPlusIcon className="h-4 w-4 mr-2 transition-transform group-hover:scale-110" />
-                  Register
+                  <UserPlusIcon className="h-5 w-5 mr-2 transition-transform group-hover:scale-110 text-white" />
+                  <span className="relative z-10 text-white">Register</span>
                 </Link>
               </>
             )}
