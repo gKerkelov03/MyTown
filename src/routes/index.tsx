@@ -11,6 +11,7 @@ import AdminDashboard from '../pages/AdminDashboard';
 import RedirectToLandingPageIfNotLoggedIn from './RedirectToLandingPageIfNotLoggedIn';
 import RedirectToForumIfLoggedIn from './RedirectToForumIfLoggedIn';
 import { useStore } from '../store/useStore';
+import Activities from '../pages/Activities';
 
 // Component to redirect authenticated users away from the Home page
 const HomeRedirect = () => {
@@ -87,6 +88,10 @@ export const router = createBrowserRouter([
             <AdminDashboard />
           </RedirectToLandingPageIfNotLoggedIn>
         ),
+      },
+      {
+        path: 'activities',
+        element: <Activities />,
       },
     ],
   },
