@@ -1,36 +1,64 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, AuthError } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { LockClosedIcon, EnvelopeIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 
 const schema = yup.object().shape({
-  email: yup.string().email('Please enter a valid email address').required('Email is required'),
-  password: yup.string().required('Password is required'),
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Email is required')
+    .trim(),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
 });
 
 type LoginFormData = yup.InferType<typeof schema>;
 
 const Login = () => {
   const navigate = useNavigate();
+  const [authError, setAuthError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, touchedFields },
+    setError,
   } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data: LoginFormData) => {
     try {
+      setAuthError(null);
       await signInWithEmailAndPassword(auth, data.email, data.password);
       toast.success('Successfully logged in!');
       navigate('/');
-    } catch {
-      toast.error('Invalid email or password');
+    } catch (error) {
+      console.error('Login error:', error);
+      
+      // Handle specific Firebase auth errors
+      const authError = error as AuthError;
+      if (authError.code === 'auth/user-not-found' || authError.code === 'auth/wrong-password') {
+        setAuthError('Invalid email or password');
+        setError('email', { type: 'manual', message: 'Invalid email or password' });
+        setError('password', { type: 'manual', message: 'Invalid email or password' });
+      } else if (authError.code === 'auth/too-many-requests') {
+        setAuthError('Too many failed login attempts. Please try again later.');
+      } else if (authError.code === 'auth/user-disabled') {
+        setAuthError('This account has been disabled. Please contact support.');
+      } else {
+        setAuthError('An error occurred during login. Please try again.');
+      }
+      
+      toast.error('Login failed. Please check your credentials.');
     }
   };
 
@@ -53,6 +81,15 @@ const Login = () => {
         </div>
         
         <div className="card">
+          {authError && (
+            <div className="mb-4 p-3 bg-error-50 border border-error-200 rounded-md text-error-700 text-sm flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-error-500" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {authError}
+            </div>
+          )}
+          
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="input-group">
               <div className="flex items-center gap-2 mb-1">
@@ -66,7 +103,7 @@ const Login = () => {
                 id="email"
                 type="email"
                 autoComplete="email"
-                className={`w-full ${errors.email ? 'error' : ''}`}
+                className={`w-full ${errors.email ? 'error' : touchedFields.email && !errors.email ? 'border-success-500' : ''}`}
                 placeholder="you@example.com"
               />
               {errors.email ? (
@@ -75,6 +112,13 @@ const Login = () => {
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                   </svg>
                   {errors.email.message}
+                </p>
+              ) : touchedFields.email && !errors.email ? (
+                <p className="input-success flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Email is valid
                 </p>
               ) : (
                 <p className="input-hint">Enter the email you used to register</p>
@@ -100,7 +144,7 @@ const Login = () => {
                 id="password"
                 type="password"
                 autoComplete="current-password"
-                className={`w-full ${errors.password ? 'error' : ''}`}
+                className={`w-full ${errors.password ? 'error' : touchedFields.password && !errors.password ? 'border-success-500' : ''}`}
                 placeholder="••••••••"
               />
               {errors.password ? (
@@ -109,6 +153,13 @@ const Login = () => {
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                   </svg>
                   {errors.password.message}
+                </p>
+              ) : touchedFields.password && !errors.password ? (
+                <p className="input-success flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Password is valid
                 </p>
               ) : (
                 <p className="input-hint">Enter your password to sign in</p>
