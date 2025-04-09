@@ -2,12 +2,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { createUserWithEmailAndPassword, AuthError } from 'firebase/auth';
-import { auth, db } from '../config/firebase';
+import { auth } from '../config/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { doc, setDoc } from 'firebase/firestore';
-import { UserPlusIcon, UserIcon, EnvelopeIcon, LockClosedIcon, KeyIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { EnvelopeIcon, LockClosedIcon, UserIcon, EyeIcon, EyeSlashIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../config/firebase';
 
 const schema = yup.object().shape({
   email: yup
@@ -101,15 +102,15 @@ const Register = () => {
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         <div className="text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
-            <UserPlusIcon className="h-8 w-8 text-primary-600" />
+            <UserIcon className="h-8 w-8 text-primary-600" />
           </div>
           <h2 className="mt-6 text-3xl font-display font-bold tracking-tight text-gray-900">
             Create your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Already have an account?{' '}
+            Or{' '}
             <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500">
-              Sign in
+              sign in to your existing account
             </Link>
           </p>
         </div>
@@ -118,7 +119,7 @@ const Register = () => {
           {authError && (
             <div className="mb-4 p-3 bg-error-50 border border-error-200 rounded-md text-error-700 text-sm flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-error-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
               </svg>
               {authError}
             </div>
@@ -129,18 +130,20 @@ const Register = () => {
               <div className="flex items-center gap-2 mb-1">
                 <UserIcon className="h-5 w-5 text-gray-400" />
                 <label htmlFor="name" className="input-label">
-                  Full name
+                  Full Name
                 </label>
               </div>
               <input
                 {...register('name')}
                 id="name"
                 type="text"
+                autoComplete="name"
                 className={`w-full ${errors.name ? 'error' : touchedFields.name && !errors.name ? 'border-success-500' : ''}`}
                 placeholder="John Doe"
               />
               {errors.name ? (
                 <p className="input-error">
+                  <ExclamationCircleIcon className="h-4 w-4 inline mr-1" />
                   {errors.name.message}
                 </p>
               ) : touchedFields.name && !errors.name ? (
@@ -148,7 +151,7 @@ const Register = () => {
                   Name is valid
                 </p>
               ) : (
-                <p className="input-hint">Enter your full name as it appears on official documents</p>
+                <p className="input-hint">Enter your full name</p>
               )}
             </div>
             
@@ -169,6 +172,7 @@ const Register = () => {
               />
               {errors.email ? (
                 <p className="input-error">
+                  <ExclamationCircleIcon className="h-4 w-4 inline mr-1" />
                   {errors.email.message}
                 </p>
               ) : touchedFields.email && !errors.email ? (
@@ -210,6 +214,7 @@ const Register = () => {
               </div>
               {errors.password ? (
                 <p className="input-error">
+                  <ExclamationCircleIcon className="h-4 w-4 inline mr-1" />
                   {errors.password.message}
                 </p>
               ) : touchedFields.password && !errors.password ? (
@@ -217,15 +222,15 @@ const Register = () => {
                   Password is valid
                 </p>
               ) : (
-                <p className="input-hint">Must be at least 8 characters with uppercase, lowercase, number, and special character</p>
+                <p className="input-hint">Create a strong password</p>
               )}
             </div>
             
             <div className="input-group">
               <div className="flex items-center gap-2 mb-1">
-                <KeyIcon className="h-5 w-5 text-gray-400" />
+                <LockClosedIcon className="h-5 w-5 text-gray-400" />
                 <label htmlFor="confirmPassword" className="input-label">
-                  Confirm password
+                  Confirm Password
                 </label>
               </div>
               <div className="relative">
@@ -251,6 +256,7 @@ const Register = () => {
               </div>
               {errors.confirmPassword ? (
                 <p className="input-error">
+                  <ExclamationCircleIcon className="h-4 w-4 inline mr-1" />
                   {errors.confirmPassword.message}
                 </p>
               ) : touchedFields.confirmPassword && !errors.confirmPassword ? (
@@ -258,7 +264,7 @@ const Register = () => {
                   Passwords match
                 </p>
               ) : (
-                <p className="input-hint">Re-enter your password to confirm</p>
+                <p className="input-hint">Confirm your password</p>
               )}
             </div>
 

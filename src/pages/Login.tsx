@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword, AuthError } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { LockClosedIcon, EnvelopeIcon, KeyIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, EnvelopeIcon, EyeIcon, EyeSlashIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
 const schema = yup.object().shape({
@@ -68,7 +68,7 @@ const Login = () => {
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         <div className="text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
-            <LockClosedIcon className="h-8 w-8 text-primary-600" />
+            <EnvelopeIcon className="h-8 w-8 text-primary-600" />
           </div>
           <h2 className="mt-6 text-3xl font-display font-bold tracking-tight text-gray-900">
             Sign in to your account
@@ -85,7 +85,7 @@ const Login = () => {
           {authError && (
             <div className="mb-4 p-3 bg-error-50 border border-error-200 rounded-md text-error-700 text-sm flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-error-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
               </svg>
               {authError}
             </div>
@@ -109,6 +109,7 @@ const Login = () => {
               />
               {errors.email ? (
                 <p className="input-error">
+                  <ExclamationCircleIcon className="h-4 w-4 inline mr-1" />
                   {errors.email.message}
                 </p>
               ) : touchedFields.email && !errors.email ? (
@@ -116,23 +117,16 @@ const Login = () => {
                   Email is valid
                 </p>
               ) : (
-                <p className="input-hint">Enter the email you used to register</p>
+                <p className="input-hint">We'll never share your email with anyone else</p>
               )}
             </div>
             
             <div className="input-group">
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <KeyIcon className="h-5 w-5 text-gray-400" />
-                  <label htmlFor="password" className="input-label">
-                    Password
-                  </label>
-                </div>
-                <div className="text-sm">
-                  <Link to="/forgot-password" className="font-medium text-primary-600 hover:text-primary-500">
-                    Forgot your password?
-                  </Link>
-                </div>
+              <div className="flex items-center gap-2 mb-1">
+                <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                <label htmlFor="password" className="input-label">
+                  Password
+                </label>
               </div>
               <div className="relative">
                 <input
@@ -157,6 +151,7 @@ const Login = () => {
               </div>
               {errors.password ? (
                 <p className="input-error">
+                  <ExclamationCircleIcon className="h-4 w-4 inline mr-1" />
                   {errors.password.message}
                 </p>
               ) : touchedFields.password && !errors.password ? (
@@ -164,20 +159,28 @@ const Login = () => {
                   Password is valid
                 </p>
               ) : (
-                <p className="input-hint">Enter your password to sign in</p>
+                <p className="input-hint">Enter your password</p>
               )}
             </div>
 
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                Remember me
-              </label>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  Remember me
+                </label>
+              </div>
+
+              <div className="text-sm">
+                <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+                  Forgot your password?
+                </a>
+              </div>
             </div>
 
             <div>

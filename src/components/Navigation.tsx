@@ -6,7 +6,6 @@ import {
   UserCircleIcon, 
   Bars3Icon, 
   XMarkIcon,
-  HomeIcon,
   ClipboardDocumentListIcon,
   ChatBubbleLeftRightIcon,
   UserIcon,
@@ -40,9 +39,7 @@ const Navigation = () => {
         { name: 'Activities', path: '/municipality/1', icon: ClipboardDocumentListIcon },
         { name: 'Forum', path: '/forum', icon: ChatBubbleLeftRightIcon },
       ]
-    : [
-        { name: 'Home', path: '/', icon: HomeIcon },
-      ];
+    : [];
 
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-300 ${

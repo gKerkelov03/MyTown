@@ -81,11 +81,6 @@
     @apply text-sm text-error-600 mt-1 flex items-center space-x-1 animate-fade-in;
   }
   
-  .input-error::before {
-    content: "⚠️";
-    @apply mr-1;
-  }
-  
   .input-success {
     @apply text-sm text-success-600 mt-1 flex items-center space-x-1 animate-fade-in;
   }
