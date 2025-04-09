@@ -47,8 +47,8 @@ const Navigation = () => {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-xl font-bold text-gray-800">
-                My Town
+              <Link to="/" className="text-xl font-display font-bold">
+                <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">MyTown</span>
               </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -58,8 +58,8 @@ const Navigation = () => {
                   to={link.href}
                   className={`${
                     location.pathname === link.href
-                      ? 'border-indigo-500 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                      ? 'border-blue-600 text-blue-700'
+                      : 'border-transparent text-gray-500 hover:border-blue-300 hover:text-blue-600'
                   } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
                 >
                   <link.icon className="h-5 w-5 mr-1" />
@@ -72,7 +72,7 @@ const Navigation = () => {
             {isAuthenticated ? (
               <button
                 onClick={handleLogout}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-1" />
                 Logout
