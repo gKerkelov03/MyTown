@@ -7,8 +7,17 @@ import {
   UserGroupIcon,
   BuildingLibraryIcon
 } from '@heroicons/react/24/outline';
+import { useStore } from '../store/useStore';
+import { Navigate } from 'react-router-dom';
 
 const Home = () => {
+  const { isAuthenticated } = useStore();
+  
+  // Redirect authenticated users to the activities page
+  if (isAuthenticated) {
+    return <Navigate to="/municipality/1" replace />;
+  }
+  
   return (
     <div className="space-y-24 py-8">
       {/* Hero Section */}

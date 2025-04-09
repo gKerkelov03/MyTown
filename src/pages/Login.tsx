@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword, AuthError } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { LockClosedIcon, EnvelopeIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, EnvelopeIcon, KeyIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
 const schema = yup.object().shape({
@@ -25,6 +25,7 @@ type LoginFormData = yup.InferType<typeof schema>;
 const Login = () => {
   const navigate = useNavigate();
   const [authError, setAuthError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -107,17 +108,11 @@ const Login = () => {
                 placeholder="you@example.com"
               />
               {errors.email ? (
-                <p className="input-error flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
+                <p className="input-error">
                   {errors.email.message}
                 </p>
               ) : touchedFields.email && !errors.email ? (
-                <p className="input-success flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+                <p className="input-success">
                   Email is valid
                 </p>
               ) : (
@@ -139,26 +134,33 @@ const Login = () => {
                   </Link>
                 </div>
               </div>
-              <input
-                {...register('password')}
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                className={`w-full ${errors.password ? 'error' : touchedFields.password && !errors.password ? 'border-success-500' : ''}`}
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input
+                  {...register('password')}
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  className={`w-full ${errors.password ? 'error' : touchedFields.password && !errors.password ? 'border-success-500' : ''}`}
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 focus:outline-none"
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-5 w-5" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
               {errors.password ? (
-                <p className="input-error flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
+                <p className="input-error">
                   {errors.password.message}
                 </p>
               ) : touchedFields.password && !errors.password ? (
-                <p className="input-success flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
+                <p className="input-success">
                   Password is valid
                 </p>
               ) : (

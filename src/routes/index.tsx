@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -9,6 +9,18 @@ import Forum from '../pages/Forum';
 import Profile from '../pages/Profile';
 import AdminDashboard from '../pages/AdminDashboard';
 import ProtectedRoute from './ProtectedRoute';
+import { useStore } from '../store/useStore';
+
+// Component to redirect authenticated users away from the Home page
+const HomeRedirect = () => {
+  const { isAuthenticated } = useStore();
+  
+  if (isAuthenticated) {
+    return <Navigate to="/municipality/1" replace />;
+  }
+  
+  return <Home />;
+};
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +29,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <HomeRedirect />,
       },
       {
         path: 'login',

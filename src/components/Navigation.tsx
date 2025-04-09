@@ -34,11 +34,17 @@ const Navigation = () => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
-  const navLinks = [
-    { name: 'Home', path: '/', icon: HomeIcon },
-    { name: 'Activities', path: '/municipality/1', icon: ClipboardDocumentListIcon },
-    { name: 'Forum', path: '/forum', icon: ChatBubbleLeftRightIcon },
-  ];
+  // Define navigation links based on authentication status
+  const navLinks = isAuthenticated 
+    ? [
+        { name: 'Activities', path: '/municipality/1', icon: ClipboardDocumentListIcon },
+        { name: 'Forum', path: '/forum', icon: ChatBubbleLeftRightIcon },
+      ]
+    : [
+        { name: 'Home', path: '/', icon: HomeIcon },
+        { name: 'Activities', path: '/municipality/1', icon: ClipboardDocumentListIcon },
+        { name: 'Forum', path: '/forum', icon: ChatBubbleLeftRightIcon },
+      ];
 
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -47,7 +53,7 @@ const Navigation = () => {
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link to={isAuthenticated ? "/municipality/1" : "/"} className="flex items-center">
               <span className="text-xl font-display font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                 MyTown
               </span>
